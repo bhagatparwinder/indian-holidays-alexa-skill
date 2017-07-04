@@ -11,13 +11,13 @@ var states = {
 var alexa;
 
 //OPTIONAL: replace with "amzn1.ask.skill.[your-unique-value-here]";
-var APP_ID = undefined; 
+var APP_ID = "amzn1.ask.skill."; 
 
 // URL to get the .ics from, in this instance we are getting from Stanford however this can be changed
-var URL = "http://events.stanford.edu/eventlist.ics";
+var URL = "http://www.calendarlabs.com/templates/ical/India-Holidays.ics";
 
 // Skills name 
-var skillName = "Events calendar:";
+var skillName = "Indian Holidays";
 
 // Message when the skill is first called
 var welcomeMessage = "You can ask for the events today. Search for events by date. or say help. What would you like? ";
@@ -45,10 +45,10 @@ var scheduledEventMessage = "scheduled for this time frame. I've sent the detail
 var firstThreeMessage = "Here are the first %d. ";
 
 // the values within the {} are swapped out for variables
-var eventSummary = "The %s event is, %s at %s on %s ";
+var eventSummary = "The %s event is, %s on %s ";
 
 // Only used for the card on the companion app
-var cardContentSummary = "%s at %s on %s ";
+var cardContentSummary = "%s on %s ";
 
 // More info text
 var haveEventsRepromt = "Give me an event number to hear more information.";
@@ -160,20 +160,20 @@ var startSearchHandlers = Alexa.CreateStateHandler(states.SEARCHMODE, {
 
                             if (relevantEvents[0] != null) {
                                 var date = new Date(relevantEvents[0].start);
-                                output += utils.format(eventSummary, "First", removeTags(relevantEvents[0].summary), relevantEvents[0].location, date.toDateString() + ".");
+                                output += utils.format(eventSummary, "First", removeTags(relevantEvents[0].summary), date.toDateString() + ".");
                             }
                             if (relevantEvents[1]) {
                                 var date = new Date(relevantEvents[1].start);
-                                output += utils.format(eventSummary, "Second", removeTags(relevantEvents[1].summary), relevantEvents[1].location, date.toDateString() + ".");
+                                output += utils.format(eventSummary, "Second", removeTags(relevantEvents[1].summary), date.toDateString() + ".");
                             }
                             if (relevantEvents[2]) {
                                 var date = new Date(relevantEvents[2].start);
-                                output += utils.format(eventSummary, "Third", removeTags(relevantEvents[2].summary), relevantEvents[2].location, date.toDateString() + ".");
+                                output += utils.format(eventSummary, "Third", removeTags(relevantEvents[2].summary), date.toDateString() + ".");
                             }
 
                             for (var i = 0; i < relevantEvents.length; i++) {
                                 var date = new Date(relevantEvents[i].start);
-                                cardContent += utils.format(cardContentSummary, removeTags(relevantEvents[i].summary), removeTags(relevantEvents[i].location), date.toDateString()+ "\n\n");
+                                cardContent += utils.format(cardContentSummary, removeTags(relevantEvents[i].summary), date.toDateString() + ".");
                             }
 
                             output += eventNumberMoreInfoText;
@@ -393,6 +393,3 @@ function getEventsBeweenDates(startDate, endDate, eventList) {
     console.log("FOUND " + data.length + " events between those times");
     return data;
 }
-
-
-
